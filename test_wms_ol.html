@@ -1,25 +1,23 @@
 <html>
   <head>
-    <script type="text/javascript" src="Jsonix-all.js"></script>
-    <script type="text/javascript" src="Mappings.js"></script>
+    <script type="text/javascript" src="OpenLayers.js"></script>
   </head> 
   <body onload="parse()">
     <script type="text/javascript">
         var parse = function() {
-            var context = new Jsonix.Context([ WMS_V_1_3_0 ]);
-            var unmarshaller = context.createUnmarshaller();
+            var format = new OpenLayers.Format.WMSCapabilities.v1_3_0();
             var xml = document.getElementById("geoserver").firstChild.nodeValue;
             var result;
             var times = 0;
             for (var i=0; i<10; i++) {
                 var start = new Date().getTime();
-                result = unmarshaller.unmarshalString(xml);
+                result = format.read(xml);
                 var end = new Date().getTime();
                 var time = end-start;
                 times += time;
             }
             if (window.console) {
-                //console.log(result);
+                console.log(result);
                 console.log("Average parsing time: " + times/10 + "ms");
             }
         };
